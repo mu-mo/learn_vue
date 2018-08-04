@@ -1,6 +1,11 @@
 <style type="text/css">
 @import "../node_modules/todomvc-app-css/index.css";
 </style>
+<style type="text/css">
+[v-cloak] {
+  display: none;
+}
+</style>
 <template>
   <section class="todoapp">
     <header class="header">
@@ -41,35 +46,31 @@
 // and hash-based routing in ~150 lines.
 
 // localStorage persistence
-const STORAGE_KEY = "todos-vuejs-2.0";
-const todoStorage = {
-  fetch: function() {
+const STORAGE_KEY = "todos";
+let todoStorage = {
+  fetch() {
     var todos = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-    todos.forEach(function(todo, index) {
+    todos.forEach((todo, index) => {
       todo.id = index;
     });
-    todoStorage.uid = todos.length;
+    this.uid = todos.length;
     return todos;
   },
-  save: function(todos) {
+  save(todos) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
   }
 };
 
 // visibility filters
 const filters = {
-  all: function(todos) {
+  all(todos) {
     return todos;
   },
-  active: function(todos) {
-    return todos.filter(function(todo) {
-      return !todo.completed;
-    });
+  active(todos) {
+    return todos.filter(todo => !todo.completed);
   },
-  completed: function(todos) {
-    return todos.filter(function(todo) {
-      return todo.completed;
-    });
+  completed(todos) {
+    return todos.filter(todo => todo.completed);
   }
 };
 
@@ -87,28 +88,28 @@ const todoApp = {
   // watch todos change for localStorage persistence
   watch: {
     todos: {
-      handler: function(todos) {
+      handler(todos) {
         todoStorage.save(todos);
       },
-      deep: true
+      deep: true // detect nested value changes inside Objects
     }
   },
 
   // computed properties
   // https://vuejs.org/guide/computed.html
   computed: {
-    filteredTodos: function() {
+    filteredTodos() {
       return filters[this.visibility](this.todos);
     },
-    remaining: function() {
+    remaining() {
       return filters.active(this.todos).length;
     },
     allDone: {
-      get: function() {
+      get() {
         return this.remaining === 0;
       },
-      set: function(value) {
-        this.todos.forEach(function(todo) {
+      set(value) {
+        this.todos.forEach(todo => {
           todo.completed = value;
         });
       }
@@ -116,7 +117,7 @@ const todoApp = {
   },
 
   filters: {
-    pluralize: function(n) {
+    pluralize(n) {
       return n === 1 ? "item" : "items";
     }
   },
@@ -124,8 +125,8 @@ const todoApp = {
   // methods that implement data logic.
   // note there's no DOM manipulation here at all.
   methods: {
-    addTodo: function() {
-      var value = this.newTodo && this.newTodo.trim();
+    addTodo() {
+      var value = this.newTodo.trim();
       if (!value) {
         return;
       }
@@ -137,16 +138,15 @@ const todoApp = {
       this.newTodo = "";
     },
 
-    removeTodo: function(todo) {
+    removeTodo(todo) {
       this.todos.splice(this.todos.indexOf(todo), 1);
     },
 
-    editTodo: function(todo) {
+    editTodo(todo) {
       this.beforeEditCache = todo.title;
       this.editedTodo = todo;
     },
-
-    doneEdit: function(todo) {
+    doneEdit(todo) {
       if (!this.editedTodo) {
         return;
       }
@@ -156,16 +156,14 @@ const todoApp = {
         this.removeTodo(todo);
       }
     },
-
-    cancelEdit: function(todo) {
+    cancelEdit(todo) {
       this.editedTodo = null;
       todo.title = this.beforeEditCache;
     },
-
-    removeCompleted: function() {
+    removeCompleted() {
       this.todos = filters.active(this.todos);
     },
-    filterByType: function(type) {
+    filterByType(type) {
       switch (type) {
         case 1:
           // all
@@ -190,6 +188,7 @@ const todoApp = {
   // https://vuejs.org/guide/custom-directive.html
   directives: {
     "todo-focus": function(el, binding) {
+      // 加载的时候自动聚焦
       if (binding.value) {
         el.focus();
       }
@@ -198,9 +197,3 @@ const todoApp = {
 };
 export default todoApp;
 </script>
-
-<style>
-[v-cloak] {
-  display: none;
-}
-</style>
