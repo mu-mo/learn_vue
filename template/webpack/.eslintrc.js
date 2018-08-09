@@ -10,7 +10,7 @@ module.exports = {
   },
   // https://github.com/vuejs/eslint-plugin-vue#priority-a-essential-error-prevention
   // consider switching to `plugin:vue/strongly-recommended` or `plugin:vue/recommended` for stricter rules.
-  extends: ['plugin:vue/essential', 'airbnb-base'],
+  extends: ['plugin:vue/strongly-recommended', 'airbnb-base'],
   // required to lint *.vue files
   plugins: [
     'vue'
@@ -46,19 +46,6 @@ module.exports = {
     }],
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-console': 0,
-    // allow paren-less arrow functions
-    'arrow-parens': 0,
-    // allow async-await
-    'generator-star-spacing': 0,
-    "no-unused-vars": [2, {
-      // 允许声明未使用变量
-      "vars": "local",
-      // 参数不检查
-      "args": "none"
-    }],
-    //关闭禁止混用tab和空格
-    "no-mixed-spaces-and-tabs": [0],
-    "no-else-return": 2, //如果if语句里面有return,后面不能跟else语句
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off'
   }
 }
