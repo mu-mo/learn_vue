@@ -5,17 +5,17 @@
 </template>
 
 <script>
-import itemcontainer from "../../components/itemcontainer";
+import itemcontainer from '@/components/itemcontainer';
 
 export default {
-  name: "item",
+  name: 'item',
   components: {
-    itemcontainer
+    itemcontainer,
   },
   created() {
     // 进入题目页面，开始计时
-    this.$store.commit("REMBER_TIME");
-  }
+    this.$store.commit('REMBER_TIME');
+  },
 };
 </script>
 

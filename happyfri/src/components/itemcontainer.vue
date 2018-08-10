@@ -1,52 +1,56 @@
 <template>
   <section>
-        <header class="top_tips">
-            <span class="num_tip" v-if="fatherComponent == 'home'">{{level}}</span>
-            <span class="num_tip" v-if="fatherComponent == 'item'">题目{{itemNum}}</span>
-        </header>
-        <div v-if="fatherComponent == 'home'" >
-            <div class="home_logo item_container_style"></div>
-            <router-link to="item" class="start button_style" ></router-link>
+    <header class="top_tips">
+      <span class="num_tip" v-if="fatherComponent == 'home'">{{level}}</span>
+      <span class="num_tip" v-if="fatherComponent == 'item'">题目{{itemNum}}</span>
+    </header>
+    <div v-if="fatherComponent == 'home'">
+      <div class="home_logo item_container_style"></div>
+      <router-link to="item" class="start button_style"></router-link>
+    </div>
+    <div v-if="fatherComponent == 'item'">
+      <div class="item_back item_container_style">
+        <div class="item_list_container" v-if="itemDetail.length > 0">
+          <header class="item_title">{{itemDetail[itemNum-1].topic_name}}</header>
+          <ul>
+            <!-- eslint-disable-next-line max-len -->
+            <li v-for="(item, index) in itemDetail[itemNum-1].topic_answer" :key="index" @click="choosed(index, item.topic_answer_id)" class="item_list">
+              <span class="option_style" v-bind:class="{'has_choosed':choosedNum==index}">
+                {{chooseType(index)}}</span>
+              <span class="option_detail">{{item.answer_name}}</span>
+            </li>
+          </ul>
         </div>
-        <div v-if="fatherComponent == 'item'" >
-            <div class="item_back item_container_style">
-                <div class="item_list_container" v-if="itemDetail.length > 0">
-                    <header class="item_title">{{itemDetail[itemNum-1].topic_name}}</header>
-                    <ul>
-                        <li  v-for="(item, index) in itemDetail[itemNum-1].topic_answer" :key="index"  @click="choosed(index, item.topic_answer_id)" class="item_list">
-                            <span class="option_style" v-bind:class="{'has_choosed':choosedNum==index}">{{chooseType(index)}}</span>
-                            <span class="option_detail">{{item.answer_name}}</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <span class="next_item button_style" @click="nextItem" v-if="itemNum < itemDetail.length"></span>
-            <span class="submit_item button_style" v-else @click="submitAnswer"></span>
-        </div>
+      </div>
+      <!-- eslint-disable-next-line max-len -->
+      <span class="next_item button_style" @click="nextItem" v-if="itemNum < itemDetail.length"></span>
+      <span class="submit_item button_style" v-else @click="submitAnswer"></span>
+    </div>
   </section>
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
-import img1 from "@/images/1-1.png";
+import { mapState, mapActions } from 'vuex';
+import img1 from '@/assets/img/1-1.png';
+
 export default {
-  name: "itemcontainer",
+  name: 'itemcontainer',
   data() {
     return {
       itemId: null, // 题目ID
       choosedNum: null, // 选中答案索引
-      choosedId: null // 选中答案id
+      choosedId: null, // 选中答案id
     };
   },
-  props: ["fatherComponent"],
+  props: ['fatherComponent'],
   computed: mapState([
-    "itemNum", // 第几题
-    "level", // 第几周
-    "itemDetail", // 题目详情
-    "timer" // 计时器
+    'itemNum', // 第几题
+    'level', // 第几周
+    'itemDetail', // 题目详情
+    'timer', // 计时器
   ]),
   methods: {
-    ...mapActions(["addNum", "initializeData"]),
+    ...mapActions(['addNum', 'initializeData']),
     // 点击下一题
     nextItem() {
       if (this.choosedNum !== null) {
@@ -54,20 +58,23 @@ export default {
         // 保存答案, 题目索引加一，跳到下一题
         this.addNum(this.choosedId);
       } else {
-        alert("您还没有选择答案哦");
+        /* eslint-disable no-alert */
+        alert('您还没有选择答案哦');
       }
     },
     // 索引0-3对应答案A-B
-    chooseType: type => {
+    chooseType: (type) => {
       switch (type) {
         case 0:
-          return "A";
+          return 'A';
         case 1:
-          return "B";
+          return 'B';
         case 2:
-          return "C";
+          return 'C';
         case 3:
-          return "D";
+          return 'D';
+        default:
+          return 'A';
       }
     },
     // 选中的答案信息
@@ -80,19 +87,19 @@ export default {
       if (this.choosedNum !== null) {
         this.addNum(this.choosedId);
         clearInterval(this.timer);
-        this.$router.push("score");
+        this.$router.push('score');
       } else {
-        alert("您还没有选择答案哦");
+        alert('您还没有选择答案哦');
       }
-    }
+    },
   },
   created() {
     // 初始化信息
-    if (this.fatherComponent === "home") {
+    if (this.fatherComponent === 'home') {
       this.initializeData();
       document.body.style.backgroundImage = `url(${img1})`;
     }
-  }
+  },
 };
 </script>
 
@@ -103,7 +110,7 @@ export default {
   width: 3.25rem;
   top: -1.3rem;
   right: 1.6rem;
-  background: url(../images/WechatIMG2.png) no-repeat;
+  background: url(../assets/img/WechatIMG2.png) no-repeat;
   background-size: 100% 100%;
   z-index: 10;
   .num_tip {
@@ -128,12 +135,12 @@ export default {
   left: 1rem;
 }
 .home_logo {
-  background-image: url(../images/1-2.png);
+  background-image: url(../assets/img/1-2.png);
   background-size: 13.142rem 100%;
   background-position: right center;
 }
 .item_back {
-  background-image: url(../images/2-1.png);
+  background-image: url(../assets/img/2-1.png);
   background-size: 100% 100%;
 }
 .button_style {
@@ -148,13 +155,13 @@ export default {
   background-repeat: no-repeat;
 }
 .start {
-  background-image: url(../images/1-4.png);
+  background-image: url(../assets/img/1-4.png);
 }
 .next_item {
-  background-image: url(../images/2-2.png);
+  background-image: url(../assets/img/2-2.png);
 }
 .submit_item {
-  background-image: url(../images/3-1.png);
+  background-image: url(../assets/img/3-1.png);
 }
 .item_list_container {
   position: absolute;

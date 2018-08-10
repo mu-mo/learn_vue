@@ -5,14 +5,14 @@
 </template>
 
 <script>
-import itemcontainer from "@/components/itemcontainer";
+import itemcontainer from '@/components/itemcontainer';
 
 export default {
-  name: "home",
+  name: 'home',
   components: {
-    itemcontainer
+    itemcontainer,
   },
-  created() {}
+  created() {},
 };
 </script>
 

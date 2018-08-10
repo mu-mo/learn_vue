@@ -9,7 +9,7 @@ function resolve(dir) {
 }
 
 const createLintingRule = () => ({
-  test: /\.(js)$/,
+  test: /\.(js|vue)$/,
   loader: 'eslint-loader',
   enforce: 'pre',
   include: [resolve('src'), resolve('test')],
@@ -32,7 +32,7 @@ module.exports = {
       : config.dev.assetsPublicPath
   },
   resolve: {
-    extensions: ['.js', '.vue', '.json', '.css', '.less', '.scss'],
+    extensions: ['.js', '.vue', '.json'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
@@ -75,14 +75,7 @@ module.exports = {
           name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
       },
-      {
-        test: /\.less$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          'less-loader'
-        ]
-      }
+
     ]
   },
   node: {

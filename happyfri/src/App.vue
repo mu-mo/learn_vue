@@ -1,5 +1,5 @@
 <template>
-	<div>
+  <div>
     <router-view></router-view>
   </div>
 </template>
@@ -8,93 +8,5 @@
 export default {};
 </script>
 
-<style lang='less'>
-body,
-div,
-span,
-header,
-footer,
-nav,
-section,
-aside,
-article,
-ul,
-dl,
-dt,
-dd,
-li,
-a,
-p,
-h1,
-h2,
-h3,
-h4,
-h5,
-i,
-b,
-textarea,
-button,
-input,
-select {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  font-style: normal;
-  text-decoration: none;
-  border: none;
-  color: #313131;
-  box-sizing: border-box;
-  font-weight: lighter;
-  font-family: "Microsoft YaHei";
-  -webkit-tap-highlight-color: transparent;
-  &:focus {
-    outline: none;
-  }
-}
-
-html {
-  height: 100%;
-  width: 100%;
-}
-body {
-  height: 100%;
-  width: 100%;
-  background: url(./images/1-1.png) no-repeat;
-  background-size: 100% 100%;
-}
-
-.clear:after {
-  content: "";
-  display: block;
-  clear: both;
-}
-
-.clear {
-  zoom: 1;
-}
-
-.back_img {
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-}
-
-.margin {
-  margin: 0 auto;
-}
-
-.left {
-  float: left;
-}
-
-.right {
-  float: right;
-}
-
-.hide {
-  display: none;
-}
-
-.show {
-  display: block;
-}
+<style>
 </style>
